@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	body {
+		@apply font-raleway text-dark-text text-lg leading-8;
+	}
+	.page {
+		@apply h-screen w-full;
+	}
+}
