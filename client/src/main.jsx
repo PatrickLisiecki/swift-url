@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Root from "./Root.jsx";
+import Root from "../../src/src/Root.jsx";
 import "./assets/styles/index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Pages
-import SignUp from "./pages/signup/SignUp";
+import SignUp from "./pages/signup/SignUp.jsx";
 
 const router = createBrowserRouter([
 	{

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import { supabase } from "../../config/supabaseClient";
+import { supabase } from "../../../../server/supabaseClient";
 
 export default function SignUp() {
 	const [loading, setLoading] = useState(false);
