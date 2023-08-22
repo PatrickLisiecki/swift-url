@@ -1,29 +1,31 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
-import { supabase } from "../../../../server/supabaseClient";
+import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../../../supabaseClient";
 
 export default function SignUp() {
 	const [loading, setLoading] = useState(false);
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const emailRef = useRef(null);
+	const passwordRef = useRef(null);
+	const navigate = useNavigate();
 
-	const handleSignUp = async (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		setLoading(true);
 
+		const email = emailRef.current.value;
+		const password = passwordRef.current.value;
+
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password,
-			options: {
-				emailRedirectTo: "http://localhost:5173/",
-			},
 		});
 
 		if (error) {
-			alert(error.error_description || error.message);
+			console.log(error.error_description || error.message);
 		} else {
-			alert("Welcome!");
+			navigate("/home");
 		}
 
 		setLoading(false);
@@ -35,7 +37,7 @@ export default function SignUp() {
 				<h1 className="mb-[50px] text-3xl tracking-wide text-dark-text">Create an account</h1>
 				<form
 					className="flex min-w-[350px] flex-col items-center justify-center gap-y-4 rounded-lg bg-dark-bg p-4 shadow-lg"
-					onSubmit={handleSignUp}
+					onSubmit={handleSubmit}
 				>
 					{/* Email field */}
 					<input
@@ -44,8 +46,7 @@ export default function SignUp() {
 						id="email"
 						placeholder="Email"
 						required
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						ref={emailRef}
 						className="w-full rounded border border-dark-border bg-dark-bg p-4 text-sm text-dark-text focus:border-dark-border-hover focus:outline-none"
 					/>
 
@@ -56,8 +57,7 @@ export default function SignUp() {
 						id="password"
 						placeholder="Password"
 						required
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						ref={passwordRef}
 						className="w-full rounded border border-dark-border bg-dark-bg p-4 text-sm text-dark-text focus:border-dark-border-hover focus:outline-none"
 					/>
 
