@@ -14,7 +14,7 @@ export default {
 				"dark-border": "#3e3e3e",
 				"dark-border-hover": "#656565",
 				"dark-bg": "#232323",
-				accent: "#FFA500",
+				accent: "#00BFFF",
 			},
 		},
 	},
