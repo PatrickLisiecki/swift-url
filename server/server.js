@@ -23,8 +23,12 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/", (req, res) => {
+  res.send("Server is up.");
+});
+
 app.use("/api/url", urlRouter);
 
 app.listen(PORT, () => {
-  console.log(`🚀Server is running at http://localhost:${PORT}`);
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
