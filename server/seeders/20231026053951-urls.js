@@ -13,11 +13,23 @@ module.exports = {
      * }], {});
      */
     await queryInterface.bulkInsert(
-      "URLs",
+      "short_urls",
       [
         {
-          long: "https://www.google.com/",
-          short: "http://localhost:7777/a5bu97",
+          origin: "https://patricklisiecki.com/",
+          short: "aaa",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          origin: "https://patricklisiecki.com/",
+          short: "aaa",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          origin: "https://patricklisiecki.com/",
+          short: "aaa",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -33,6 +45,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("URLs", null, {});
+    await queryInterface.bulkDelete("short_urls", null, {});
   },
 };

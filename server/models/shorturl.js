@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class URL extends Model {
+  class ShortUrl extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,15 +11,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  URL.init(
+  ShortUrl.init(
     {
-      long: { type: DataTypes.STRING, allowNull: false },
-      short: DataTypes.STRING,
+      origin: { type: DataTypes.STRING, allowNull: false },
+      short: { type: DataTypes.STRING, allowNull: false },
+      clicks: { type: DataTypes.INTEGER, defaultValue: 0 },
     },
     {
       sequelize,
-      modelName: "URL",
+      modelName: "ShortUrl",
+      tableName: "short_urls",
     },
   );
-  return URL;
+  return ShortUrl;
 };
