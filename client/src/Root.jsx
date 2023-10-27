@@ -34,7 +34,7 @@ function Root() {
 		setLink('');
 	};
 
-	// Call API to delete a url
+	// Call API to update a url
 	const handleDelete = async (entry) => {
 		const targetId = entry.id;
 
@@ -73,8 +73,13 @@ function Root() {
 				{allUrls.length > 0 &&
 					allUrls.map((entry, index) => (
 						<div key={index} className="flex flex-row justify-between rounded-xl bg-dark-bg p-2">
-							<span className="text-2xl text-white">{entry.origin}</span>
-							<span className="text-2xl text-white">{entry.short}</span>
+							<a href={entry.origin} className="text-2xl text-white">
+								{entry.origin}
+							</a>
+							<a href={`/api/url/${entry.short}`} className="text-2xl text-white">
+								{entry.short}
+							</a>
+							<span className="text-2xl text-white">{entry.clicks}</span>
 							<button
 								onClick={() => handleDelete(entry)}
 								className="h-[40px] w-[40px] rounded-full bg-red-500 text-center"

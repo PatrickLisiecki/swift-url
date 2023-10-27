@@ -15,6 +15,29 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:short", async (req, res) => {
+  try {
+    const short = req.params.short;
+
+    // Ensure entry exists
+    const entry = await ShortUrl.findOne({
+      where: {
+        short: short,
+      },
+    });
+
+    if (!entry) {
+      return res.status(404).json({ error: "Entry not found!" });
+    }
+
+    // Redirect to the original url
+    res.redirect(entry.origin);
+  } catch (error) {
+    console.error("Error redirecting to origin url:", error);
+    return res.status(500).json({ error: "Something went wrong!" });
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     // Get original url from the request
