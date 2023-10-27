@@ -1,26 +1,46 @@
 import { useState, useEffect } from 'react';
-import { getUrls, createUrl } from './api/url';
+import { getUrls, createUrl, deleteUrl } from './api/url';
 
 function Root() {
 	const [link, setLink] = useState('');
-	const [allLinks, setAllLinks] = useState([
-		// { origin: 'https://example.com', short: 'a5bwbew' },
-		// { origin: 'https://example.com', short: 'a5bwbew' },
-	]);
+	const [allUrls, setAllUrls] = useState([]);
+	const [isUpdated, setIsUpdated] = useState(false);
 
+	// Update allUrls state whenever there is an update
 	useEffect(() => {
 		const fetchAllUrls = async () => {
-			const allUrls = await getUrls();
+			const data = await getUrls();
 
-			setAllLinks(allUrls);
+			setAllUrls(data);
+
+			console.log('Use Effect');
 		};
 
 		fetchAllUrls();
-	}, []);
+	}, [isUpdated]);
 
+	// Call API to create a url
 	const handleFormSubmit = async (e) => {
 		e.preventDefault();
-		const res = await createUrl(link);
+
+		if (link.trim() === '') {
+			return;
+		}
+
+		const newUrl = await createUrl(link);
+
+		setAllUrls((prevUrls) => [...prevUrls, newUrl]);
+		setIsUpdated(!isUpdated);
+		setLink('');
+	};
+
+	// Call API to delete a url
+	const handleDelete = async (entry) => {
+		const targetId = entry.id;
+
+		await deleteUrl(targetId);
+
+		setAllUrls(allUrls.filter((entry) => entry.id !== targetId));
 	};
 
 	return (
@@ -50,11 +70,17 @@ function Root() {
 				</fieldset>
 			</form>
 			<div className="flex min-h-[200px] min-w-[50%] flex-col gap-y-2 p-2">
-				{allLinks.length > 0 &&
-					allLinks.map((link, index) => (
+				{allUrls.length > 0 &&
+					allUrls.map((entry, index) => (
 						<div key={index} className="flex flex-row justify-between rounded-xl bg-dark-bg p-2">
-							<span className="text-2xl text-white">{link.origin}</span>
-							<span className="text-2xl text-white">{link.short}</span>
+							<span className="text-2xl text-white">{entry.origin}</span>
+							<span className="text-2xl text-white">{entry.short}</span>
+							<button
+								onClick={() => handleDelete(entry)}
+								className="h-[40px] w-[40px] rounded-full bg-red-500 text-center"
+							>
+								X
+							</button>
 						</div>
 					))}
 			</div>
