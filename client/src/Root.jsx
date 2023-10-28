@@ -1,3 +1,4 @@
+import { FiChevronRight, FiX } from 'react-icons/fi';
 import { useState, useEffect } from 'react';
 import { getUrls, createUrl, deleteUrl } from './api/url';
 
@@ -29,7 +30,7 @@ function Root() {
 
 		const newUrl = await createUrl(link);
 
-		setAllUrls((prevUrls) => [...prevUrls, newUrl]);
+		setAllUrls([...allUrls, newUrl]);
 		setIsUpdated(!isUpdated);
 		setLink('');
 	};
@@ -44,13 +45,13 @@ function Root() {
 	};
 
 	return (
-		<main className="page relative flex flex-col items-center gap-y-2 bg-dark-body p-2">
-			<div className="flex flex-row items-center justify-between">
-				<h1 className="align-center text-midnight text-6xl font-semibold">Swift URL</h1>
+		<main className="page relative flex flex-col items-center gap-y-2 bg-white p-2">
+			<div className="w-full pt-36 text-center">
+				<h1 className="text-6xl font-semibold">SWIFT URL</h1>
 			</div>
-			<form onSubmit={handleFormSubmit} className="flex flex-col gap-2">
-				<fieldset className="mt-2 flex flex-row gap-1">
-					<label htmlFor="longUrl" className="text-midnight sr-only text-xl font-semibold">
+			<form onSubmit={handleFormSubmit}>
+				<fieldset className="mt-2 flex flex-row">
+					<label htmlFor="longUrl" className="sr-only">
 						URL
 					</label>
 					<input
@@ -60,31 +61,41 @@ function Root() {
 						placeholder="https://example.com"
 						value={link}
 						onChange={(e) => setLink(e.target.value)}
-						className="min-w-[300px] rounded-xl bg-white p-3 text-gray-800 focus:outline-none md:min-w-[500px]"
+						className="border-dark min-w-[300px] rounded-l-xl border p-3 text-gray-800 focus:shadow-lg focus:outline-none md:min-w-[500px]"
 					/>
-					<input
+					<button
 						type="submit"
-						value="Shorten"
-						className="rounded-xl bg-white px-3 py-2 text-xl text-dark-bg hover:cursor-pointer hover:bg-blue-200 hover:text-white"
-					/>
+						className="text-md flex flex-row items-center justify-center gap-x-1 rounded-r-xl bg-blue-400 px-3 py-2 text-white hover:cursor-pointer hover:bg-blue-500"
+					>
+						Shorten <FiChevronRight />
+					</button>
 				</fieldset>
 			</form>
+
 			<div className="flex min-h-[200px] min-w-[50%] flex-col gap-y-2 p-2">
-				{allUrls.length > 0 &&
+				{allUrls &&
 					allUrls.map((entry, index) => (
-						<div key={index} className="flex flex-row justify-between rounded-xl bg-dark-bg p-2">
-							<a href={entry.origin} className="text-2xl text-white">
-								{entry.origin}
-							</a>
-							<a href={`/api/url/${entry.short}`} className="text-2xl text-white">
-								{entry.short}
-							</a>
-							<span className="text-2xl text-white">{entry.clicks}</span>
+						<div
+							key={index}
+							className="flex flex-row items-center justify-between rounded-xl border border-gray-300 bg-white p-2 text-gray-500 shadow-2xl"
+						>
+							<div className="flex flex-col">
+								<span className="text-sm font-bold">Original URL</span>
+								<a href={entry.origin}>{entry.origin}</a>
+							</div>
+							<div className="flex flex-col">
+								<span className="text-sm font-bold">Short URL</span>
+								<a href={`/api/url/${entry.short}`}>{entry.short}</a>
+							</div>
+							<div className="flex flex-col">
+								<span className="text-sm font-bold">Clicks</span>
+								<span>{entry.clicks}</span>
+							</div>
 							<button
 								onClick={() => handleDelete(entry)}
-								className="h-[40px] w-[40px] rounded-full bg-red-500 text-center"
+								className="grid h-[30px] w-[30px] place-items-center rounded-full hover:bg-gray-200"
 							>
-								X
+								<FiX />
 							</button>
 						</div>
 					))}
