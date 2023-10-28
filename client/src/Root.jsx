@@ -35,7 +35,7 @@ function Root() {
 		setLink('');
 	};
 
-	// Call API to update a url
+	// Call API to delete a url
 	const handleDelete = async (entry) => {
 		const targetId = entry.id;
 
@@ -45,9 +45,11 @@ function Root() {
 	};
 
 	return (
-		<main className="page relative flex flex-col items-center gap-y-2 bg-white p-2">
+		<main className="page relative flex flex-col items-center gap-y-2 bg-white bg-gradient-to-t from-blue-200 to-white p-2">
 			<div className="w-full pt-36 text-center">
-				<h1 className="text-6xl font-semibold">SWIFT URL</h1>
+				<h1 className="mb-4 text-4xl font-extrabold uppercase leading-none tracking-tight text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+					Swift URL
+				</h1>
 			</div>
 			<form onSubmit={handleFormSubmit}>
 				<fieldset className="mt-2 flex flex-row">
@@ -61,7 +63,7 @@ function Root() {
 						placeholder="https://example.com"
 						value={link}
 						onChange={(e) => setLink(e.target.value)}
-						className="border-dark min-w-[300px] rounded-l-xl border p-3 text-gray-800 focus:shadow-lg focus:outline-none md:min-w-[500px]"
+						className="border-dark min-w-[300px] rounded-l-xl border p-3 text-gray-800 focus:border-2 focus:outline-none md:min-w-[500px]"
 					/>
 					<button
 						type="submit"
@@ -71,29 +73,32 @@ function Root() {
 					</button>
 				</fieldset>
 			</form>
-
 			<div className="flex min-h-[200px] min-w-[50%] flex-col gap-y-2 p-2">
 				{allUrls &&
 					allUrls.map((entry, index) => (
 						<div
 							key={index}
-							className="flex flex-row items-center justify-between rounded-xl border border-gray-300 bg-white p-2 text-gray-500 shadow-2xl"
+							className="shadow-a flex flex-row items-center justify-between rounded-xl bg-white p-2 text-gray-500"
 						>
-							<div className="flex flex-col">
+							<div className="flex max-w-[50%] flex-grow flex-col">
 								<span className="text-sm font-bold">Original URL</span>
-								<a href={entry.origin}>{entry.origin}</a>
+								<a href={entry.origin} className="hover:text-blue-300">
+									{entry.origin}
+								</a>
 							</div>
-							<div className="flex flex-col">
+							<div className="mx-[50px] flex flex-col">
 								<span className="text-sm font-bold">Short URL</span>
-								<a href={`/api/url/${entry.short}`}>{entry.short}</a>
+								<a href={`/api/url/${entry.short}`} className="hover:text-blue-300">
+									{entry.short}
+								</a>
 							</div>
-							<div className="flex flex-col">
+							<div className="mx-[50px] flex flex-col">
 								<span className="text-sm font-bold">Clicks</span>
 								<span>{entry.clicks}</span>
 							</div>
 							<button
 								onClick={() => handleDelete(entry)}
-								className="grid h-[30px] w-[30px] place-items-center rounded-full hover:bg-gray-200"
+								className="align-self-right grid h-[30px] w-[30px] place-items-center rounded-full hover:bg-gray-200"
 							>
 								<FiX />
 							</button>
