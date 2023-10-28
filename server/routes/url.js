@@ -30,6 +30,11 @@ router.get("/:short", async (req, res) => {
       return res.status(404).json({ error: "Entry not found!" });
     }
 
+    // Users.increment('aa', { by: 5, where: { gender: 'female' } });
+
+    // Increase the amount of clicks by 1
+    ShortUrl.increment("clicks", { by: 1, where: { short: short } });
+
     // Redirect to the original url
     res.redirect(entry.origin);
   } catch (error) {
